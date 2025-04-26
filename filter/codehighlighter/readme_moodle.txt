@@ -24,12 +24,12 @@ Prerequisite: Make sure the grunt watcher is running during the below process:
 
    For instance, if TinyMCE version is 6.3.2, the file to download should be https://github.com/tinymce/tinymce/tree/6.3.2.
 
-3. In the extracted folder, run "yarn".
+3. In the extracted folder, run "npm ci".
 
 4. Update the PrismJS version in filter/codehighlighter/thirdpartylibs.xml according to the PrismJS version in the extracted
    folder in the file node_modules/prismjs/package.json.
 
-5. Copy the node_modules/prismjs/themes/prism.css to yourmoodle/filter/codehighlighter/styles.css
+5. Copy the themes/prism.css to yourmoodle/filter/codehighlighter/styles.css
 
 6. Edit the styles.css to make sure the indentation is made using spaces, not tabs, and remove trailing spaces.
 
@@ -45,7 +45,9 @@ Prerequisite: Make sure the grunt watcher is running during the below process:
    * code[class*="language-"] ::selection
    * code[class*="language-"]
 
-8. See if the grunt watch is reporting problems. If yes, follow the instructions to fix it. e.g:
+8. Add the prefix "prism-" in front of all CSS classes, e.g. replace .token with .prism-token
+
+9. See if the grunt watch is reporting problems. If yes, follow the instructions to fix it. e.g:
 
    Before:
    ```
@@ -64,10 +66,37 @@ Prerequisite: Make sure the grunt watcher is running during the below process:
 
    And remove the warning from color-hex-case by renaming "#DD4A68" to lowercase "#dd4a68".
 
-9. In the extracted folder, run "./bin/build-prism.js"
+10. Edit gulpfile.js/paths.js and add 'plugins/custom-class/prism-custom-class.js' to main in module.exports
 
-10. Copy the node_modules/prismjs/prism.js to yourmoodle/filter/codehighlighter/amd/src/prism.js
+    Also add all languages that are currently supported in Tiny code samples, e.g.:
+    'components/prism-markup-templating.js',
+    'components/prism-php.js',
+    'components/prism-ruby.js',
+    'components/prism-python.js',
+    'components/prism-java.js',
+    'components/prism-c.js',
+    'components/prism-csharp.js',
+    'components/prism-cpp.js'
 
-11. Edit the prism.js to make sure the indentation is made using spaces, not tabs, and remove trailing spaces.
+11. In the extracted folder, run "npm run build"
+
+12. Copy the prism.js to yourmoodle/filter/codehighlighter/amd/src/prism.js
+
+13. Edit the prism.js to make sure the indentation is made using spaces, not tabs, and remove trailing spaces.
+
+    Add boilerplate code for Moodle. The easiest way is to look at the differences with "git diff".
+    The start of the file should look like this:
+      const prismjs = function(global, module, exports) {
+         // preserve the global if it has already been loaded
+         const oldprism = window.Prism;
+         window.Prism = { manual: true };
+      }
+
+    The end of the file should look like this:
+      // restore the original Prism reference
+      window.Prism = oldprism;
+      return Prism;
+      }(undefined, undefined, undefined);
+      export default prismjs;
 
 Note: As long as the grunt watcher says Done, then the upgrade process is complete.
