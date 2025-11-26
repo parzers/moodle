@@ -19,17 +19,17 @@ Prerequisite: Make sure the grunt watcher is running during the below process:
    It will generate minified js files automatically if there is a change in all JS files in the amd folder.
 
 2. Download Tiny, which contains PrismJS as a dependency
-   See the lib/editor/tiny/thirdpartylibs.xml to get the current TinyMCE version (X.Y.Z).
+   See the public/lib/editor/tiny/thirdpartylibs.xml to get the current TinyMCE version (X.Y.Z).
    Download the ZIP file at https://github.com/tinymce/tinymce/tree/X.Y.Z and extract the ZIP file.
 
    For instance, if TinyMCE version is 6.3.2, the file to download should be https://github.com/tinymce/tinymce/tree/6.3.2.
 
 3. In the extracted folder, run "yarn".
 
-4. Update the PrismJS version in filter/codehighlighter/thirdpartylibs.xml according to the PrismJS version in the extracted
+4. Update the PrismJS version in public/filter/codehighlighter/thirdpartylibs.xml according to the PrismJS version in the extracted
    folder in the file node_modules/prismjs/package.json.
 
-5. Copy the node_modules/prismjs/themes/prism.css to yourmoodle/filter/codehighlighter/styles.css
+5. Copy the node_modules/prismjs/themes/prism.css to yourmoodle/public/filter/codehighlighter/styles.css
 
 6. Edit the styles.css to make sure the indentation is made using spaces, not tabs, and remove trailing spaces.
 
@@ -73,7 +73,7 @@ Prerequisite: Make sure the grunt watcher is running during the below process:
 
 11. Run "./bin/build-prism.js"
 
-12. Copy the node_modules/prismjs/prism.js to yourmoodle/filter/codehighlighter/amd/src/prism.js
+12. Copy the node_modules/prismjs/prism.js to yourmoodle/public/filter/codehighlighter/amd/src/prism.js
 
 13. Edit the prism.js to make sure the indentation is made using spaces, not tabs, and remove trailing spaces.
 
